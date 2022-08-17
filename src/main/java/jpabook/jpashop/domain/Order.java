@@ -1,5 +1,6 @@
 package jpabook.jpashop.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -29,16 +30,16 @@ public class Order {
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     private List<OrderItem> orderItems = new ArrayList<>();
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToOne(fetch = LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "delivery_id")
     private Delivery delivery;
 
-    private LocalDateTime orderDate;
+    private LocalDateTime orderDate; //주문시간
 
-    @Enumerated
-    private OrderStatus status;
+    @Enumerated(EnumType.STRING)
+    private OrderStatus status; //주문상태 [ORDER, CANCEL]
 
-    //== 연관관계 편의 메서드 ==//
+    //==연관관계 메서드==//
     public void setMember(Member member) {
         this.member = member;
         member.getOrders().add(this);
@@ -54,7 +55,7 @@ public class Order {
         delivery.setOrder(this);
     }
 
-    //== 생성 메서드 ==//
+    //==생성 메서드==//
     public static Order createOrder(Member member, Delivery delivery, OrderItem... orderItems) {
         Order order = new Order();
         order.setMember(member);
@@ -66,9 +67,8 @@ public class Order {
         order.setOrderDate(LocalDateTime.now());
         return order;
     }
-    
-    //== 비지니스 로직 ==/
 
+    //==비즈니스 로직==//
     /**
      * 주문 취소
      */
@@ -83,15 +83,16 @@ public class Order {
         }
     }
 
-    //== 조회로직 ==//
+    //==조회 로직==//
     /**
-     *  전체 주문 가격
+     * 전체 주문 가격 조회
      */
     public int getTotalPrice() {
         int totalPrice = 0;
         for (OrderItem orderItem : orderItems) {
-            totalPrice += orderItem.getOrderPrice();
+            totalPrice += orderItem.getTotalPrice();
         }
         return totalPrice;
     }
+
 }

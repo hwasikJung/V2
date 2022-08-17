@@ -1,7 +1,7 @@
 package jpabook.jpashop;
 
 import jpabook.jpashop.domain.*;
-import jpabook.jpashop.domain.Item.Book;
+import jpabook.jpashop.domain.item.Book;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -10,17 +10,17 @@ import javax.annotation.PostConstruct;
 import javax.persistence.EntityManager;
 
 /**
- * 총 주문 2개
+ * 종 주문 2개
  * * userA
- *   * JPA1 BOOK
- *   * JPA2 BOOK
+ * 	 * JPA1 BOOK
+ * 	 * JPA2 BOOK
  * * userB
- *   * SPRING1 BOOK
- *   * SPRING2 BOOK
+ * 	 * SPRING1 BOOK
+ * 	 * SPRING2 BOOK
  */
 @Component
 @RequiredArgsConstructor
-public class initDb {
+class InitDb {
 
     private final InitService initService;
 
@@ -95,5 +95,5 @@ public class initDb {
             return delivery;
         }
     }
-
 }
+

@@ -1,9 +1,10 @@
-package jpabook.jpashop.domain.Item;
+package jpabook.jpashop.domain.item;
 
 import jpabook.jpashop.domain.Category;
 import jpabook.jpashop.exception.NotEnoughStockException;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.BatchSize;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -11,7 +12,7 @@ import java.util.List;
 
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name="dtype")
+@DiscriminatorColumn(name = "dtype")
 @Getter @Setter
 public abstract class Item {
 
@@ -27,8 +28,7 @@ public abstract class Item {
     @ManyToMany(mappedBy = "items")
     private List<Category> categories = new ArrayList<>();
 
-    //== 비지니스 로직 ==//
-
+    //==비즈니스 로직==//
     /**
      * stock 증가
      */
@@ -46,6 +46,4 @@ public abstract class Item {
         }
         this.stockQuantity = restStock;
     }
-
-
 }

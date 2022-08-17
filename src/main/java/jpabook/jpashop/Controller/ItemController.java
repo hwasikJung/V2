@@ -1,7 +1,7 @@
-package jpabook.jpashop.Controller;
+package jpabook.jpashop.controller;
 
-import jpabook.jpashop.domain.Item.Book;
-import jpabook.jpashop.domain.Item.Item;
+import jpabook.jpashop.domain.item.Book;
+import jpabook.jpashop.domain.item.Item;
 import jpabook.jpashop.service.ItemService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -19,13 +19,13 @@ public class ItemController {
 
     private final ItemService itemService;
 
-    @GetMapping("items/new")
+    @GetMapping("/items/new")
     public String createForm(Model model) {
         model.addAttribute("form", new BookForm());
         return "items/createItemForm";
     }
 
-    @PostMapping("items/new")
+    @PostMapping("/items/new")
     public String create(BookForm form) {
 
         Book book = new Book();
@@ -46,7 +46,7 @@ public class ItemController {
         return "items/itemList";
     }
 
-    @GetMapping("item/{itemId}/edit")
+    @GetMapping("items/{itemId}/edit")
     public String updateItemForm(@PathVariable("itemId") Long itemId, Model model) {
         Book item = (Book) itemService.findOne(itemId);
 
@@ -60,7 +60,6 @@ public class ItemController {
 
         model.addAttribute("form", form);
         return "items/updateItemForm";
-
     }
 
     @PostMapping("items/{itemId}/edit")
@@ -70,5 +69,9 @@ public class ItemController {
 
         return "redirect:/items";
     }
-
 }
+
+
+
+
+
